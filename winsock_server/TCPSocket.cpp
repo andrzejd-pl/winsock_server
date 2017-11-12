@@ -9,7 +9,9 @@ TCPSocket::TCPSocket() {
 }
 
 
-TCPSocket::~TCPSocket() {}
+TCPSocket::~TCPSocket() {
+	closesocket(client);
+}
 
 void TCPSocket::Bind(unsigned int port) const {
 	sockaddr_in add;
@@ -35,7 +37,7 @@ SOCKET TCPSocket::Accept() const {
 	return client;
 }
 
-std::string TCPSocket::Recieve(SOCKET& client) {
+std::string TCPSocket::Recieve() const {
 	char b[100];
 
 	int ret = recv(client, b, 100, 0);
@@ -48,8 +50,15 @@ std::string TCPSocket::Recieve(SOCKET& client) {
 	return buff;
 }
 
-void TCPSocket::Send(SOCKET& client, const std::string& data) const {
+void TCPSocket::Send(const std::string& data) const {
 	int ret = send(client, data.c_str(), data.size(), 0);
 	if (ret == SOCKET_ERROR)
 		throw std::system_error(WSAGetLastError(), std::system_category(), "Send failed");
+}
+
+void TCPSocket::Shutdown()
+{
+	int ret = shutdown(client, SD_SEND);
+	if(ret == SOCKET_ERROR)
+		throw std::system_error(WSAGetLastError(), std::system_category(), "Shutdown failed");
 }

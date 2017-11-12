@@ -10,6 +10,7 @@ class TCPSocket
 {
 private:
 	SOCKET sock;
+	SOCKET client;
 public:
 	TCPSocket();
 	~TCPSocket();
@@ -17,8 +18,9 @@ public:
 	void Bind(unsigned int port) const;
 	void Listen() const;
 	SOCKET Accept() const;
-	std::string Recieve(SOCKET& client);
-	void Send(SOCKET& client, const std::string& data) const;
+	std::string Recieve() const;
+	void Send(const std::string& data) const;
+	void Shutdown();
 };
 
 class ClosingConnectionException : public std::exception {
