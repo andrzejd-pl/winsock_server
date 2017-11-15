@@ -18,7 +18,7 @@ void TCPSocket::Bind(unsigned int port) {
 	sockaddr_in add;
 	add.sin_family = AF_INET;
 	add.sin_addr.s_addr = htonl(INADDR_ANY);
-	add.sin_port = port;
+	add.sin_port = htons(port);
 	int ret = bind(sock, reinterpret_cast<SOCKADDR *>(&add), sizeof(add));
 	if (ret == SOCKET_ERROR)
 		throw std::system_error(WSAGetLastError(), std::system_category(), "Bind failed");
