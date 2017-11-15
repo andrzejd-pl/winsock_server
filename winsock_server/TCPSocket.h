@@ -15,11 +15,11 @@ public:
 	TCPSocket();
 	~TCPSocket();
 
-	void Bind(unsigned int port) const;
-	void Listen() const;
-	SOCKET Accept() const;
-	std::string Recieve() const;
-	void Send(const std::string& data) const;
+	void Bind(unsigned int port);
+	void Listen();
+	void Accept();
+	std::string Recieve(const int& bufforLenght);
+	void Send(const std::string& data);
 	void Shutdown();
 };
 
